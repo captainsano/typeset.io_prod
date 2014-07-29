@@ -1,0 +1,11 @@
+{
+  "name": "editor-server",
+  "version": "0.0.1",
+  "description": "The server-side realtime application.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Santhos Baala RS",
+  "license": "ISC"
+}
