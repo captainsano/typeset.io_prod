@@ -18,6 +18,7 @@ io = require('socket.io')(server);
 
 io.on('connection', function(socket) {
   console.log('New Socket Connected!');
+  require('./lib/doc')(socket);
   return socket.on('disconnect', function(socket) {
     return console.log('Socket Disconnected!');
   });

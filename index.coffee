@@ -8,6 +8,9 @@ io = require('socket.io')(server);
 io.on('connection', (socket) ->
   console.log('New Socket Connected!')
 
+  # Attach the document handler events
+  require('./lib/doc')(socket)
+
   socket.on('disconnect', (socket) ->
     console.log('Socket Disconnected!')
   )
