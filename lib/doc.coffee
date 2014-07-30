@@ -4,6 +4,7 @@ module.exports = (socket, mongoose) ->
   Document = require('./models/Document')(mongoose)
 
   socket.on('doc.list', (data, response) ->
+    console.log('[Doc]: Listing...')
     # Fetch the documents
     Document.find((err, result) ->
       if err
@@ -23,10 +24,28 @@ module.exports = (socket, mongoose) ->
     # TODO: Create a new document
   )
 
-  socket.on('doc.update', (data, response) ->
-    # TODO: Update a document
+  socket.on('doc.rename', (data, response) ->
+    console.log('[Doc]: Renaming...')
+    Document.update({_id: data.id}, {title: data.title}, (err) ->
+      if err
+        response({
+          code: 500
+          error: 'Failed to update the title'
+        })
+      else
+        response({code: 200})
+    )
   )
 
   socket.on('doc.delete', (data, response) ->
-    # TODO: Delete a document
+    console.log('[Doc]: Deleting...')
+    Document.remove({_id: data.id}, (err) ->
+      if err
+        response({
+          code: 500
+          error: 'Could not delete document'
+        })
+      else
+        response({code: 200})
+    )
   )
