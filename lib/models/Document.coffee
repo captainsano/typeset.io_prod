@@ -7,6 +7,7 @@ module.exports = (mongoose) ->
     DocumentSchema = new mongoose.Schema({
       title: String
       createdAt: {type: Date, default: Date.now()}
+      createdBy: mongoose.Schema.Types.ObjectId
     })
 
     Document = mongoose.model('Document', DocumentSchema)
