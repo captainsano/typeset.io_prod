@@ -5,7 +5,7 @@ Document = null
 module.exports = (mongoose) ->
   if not Document
     DocumentSchema = new mongoose.Schema({
-      title: String
+      title: {type: String, default: 'New Document'}
       createdAt: {type: Date, default: Date.now()}
       createdBy: mongoose.Schema.Types.ObjectId
     })
