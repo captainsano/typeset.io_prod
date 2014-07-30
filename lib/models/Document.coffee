@@ -7,7 +7,7 @@ module.exports = (mongoose) ->
     DocumentSchema = new mongoose.Schema({
       title: {type: String, default: 'New Document'}
       createdAt: {type: Date, default: Date.now()}
-      createdBy: mongoose.Schema.Types.ObjectId
+#      createdBy: {type: mongoose.Schema.Types.ObjectId, default: ''}
     })
 
     Document = mongoose.model('Document', DocumentSchema)
