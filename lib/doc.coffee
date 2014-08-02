@@ -24,7 +24,7 @@ module.exports = (socket, mongoose) ->
 
   socket.on('doc.create', (data, response) ->
     console.log('[Doc]: Creating...')
-    document = new Document({})
+    document = new Document({title: data.title})
     document.save((err) ->
       if err
         response({
