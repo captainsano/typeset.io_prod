@@ -12,20 +12,24 @@ app.use(cors({
 
 mongoose = require('mongoose');
 
-mongoose.connect('mongodb://localhost/typeset', function() {
+mongoose.connect('mongodb://localhost/typeset', function(err) {
   var io, server;
-  console.log('MongoDB Connected!');
-  server = app.listen(8888, function() {
-    return console.log('Listening on port ' + 8888);
-  });
-  io = require('socket.io')(server);
-  return io.on('connection', function(socket) {
-    console.log('New Socket Connected!');
-    require('./lib/doc')(socket, mongoose);
-    return socket.on('disconnect', function(socket) {
-      return console.log('Socket Disconnected!');
+  if (err) {
+    console.log('MongoDB connection failed!');
+  } else {
+    console.log('MongoDB Connected!');
+    server = app.listen(8888, function() {
+      return console.log('Listening on port ' + 8888);
     });
-  });
+    io = require('socket.io')(server);
+    io.on('connection', function(socket) {
+      console.log('New Socket Connected!');
+      require('./lib/doc')(socket, mongoose);
+      return socket.on('disconnect', function(socket) {
+        return console.log('Socket Disconnected!');
+      });
+    });
+  }
 });
 
 //# sourceMappingURL=index.map

@@ -6,7 +6,10 @@ module.exports = (socket, mongoose) ->
   socket.on('doc.list', (data, response) ->
     console.log('[Doc]: Listing...')
     # Fetch the documents
-    Document.find((err, result) ->
+    Document
+    .find({})
+    .sort({createdAt: -1})
+    .exec((err, result) ->
       if err
         response({
           code: 500
