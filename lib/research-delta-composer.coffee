@@ -2,6 +2,23 @@
 module.exports = (mongoose) ->
   Delta = require('./models/Delta')(mongoose)
 
+  # Main aggregate function that composes delta accd. to
+  # the research operations
+  _aggregateDeltas = (deltas) ->
+    document = {sections: []}
+    for i in [0..deltas.length - 1]
+      delta = deltas[i]
+      args = delta.args
+      switch(delta.name)
+        when 'section.add'
+          document.sections.splice(args.index, 0, {
+            section_id: args.section_id
+            title: ''
+            contents: ''
+            subsections: []
+          })
+    return document
+
   # Method to compose the document from deltas
   _compose = (docid, startingFrom, callback) ->
     Delta
@@ -15,8 +32,9 @@ module.exports = (mongoose) ->
           callback?('Error Fetching Deltas!', null)
         else
           console.log('Fetched Deltas: ')
-          console.log(deltas)
-          callback?(null, {})
+          document = _aggregateDeltas(deltas)
+          console.log(document)
+          callback?(null, document)
     )
 
   {
