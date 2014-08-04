@@ -29,8 +29,10 @@ mongoose.connect('mongodb://localhost/typeset', (err) ->
       docid = req.param('docid')
       # TODO: Check for document existence and editing rights
       Document = require('./lib/models/Document')(mongoose)
+      console.log('Setting up namespace for: ' + docid)
       Document.findOne({_id: docid}, (err, document) ->
         if err or not document
+          console.log('Failed to setup namespace: ' + docid)
           res.json({
             code: 400
             error: 'Invalid Document'
@@ -40,11 +42,12 @@ mongoose.connect('mongodb://localhost/typeset', (err) ->
           docSock = io.of('/' + docid)
           docSock.on('connection', (socket) ->
             console.log('Socket connected for document: ' + docid)
-            require('./lib/research/editor')(socket, mongoose)
+            require('./lib/research-editor')(socket, mongoose, document)
           )
           res.json({
             code: 200
           })
+          console.log('Setup namespace: ' + docid)
       )
     )
 

@@ -37,11 +37,13 @@ mongoose.connect('mongodb://localhost/typeset', function(err) {
       var Document, docid;
       docid = req.param('docid');
       Document = require('./lib/models/Document')(mongoose);
+      console.log('Setting up namespace for: ' + docid);
       return Document.findOne({
         _id: docid
       }, function(err, document) {
         var docSock;
         if (err || !document) {
+          console.log('Failed to setup namespace: ' + docid);
           return res.json({
             code: 400,
             error: 'Invalid Document'
@@ -50,11 +52,12 @@ mongoose.connect('mongodb://localhost/typeset', function(err) {
           docSock = io.of('/' + docid);
           docSock.on('connection', function(socket) {
             console.log('Socket connected for document: ' + docid);
-            return require('./lib/research/editor')(socket, mongoose);
+            return require('./lib/research-editor')(socket, mongoose, document);
           });
-          return res.json({
+          res.json({
             code: 200
           });
+          return console.log('Setup namespace: ' + docid);
         }
       });
     });
