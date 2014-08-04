@@ -21,17 +21,17 @@ describe('Document Handling', function() {
     });
 
     it('Should create a new document', function(done) {
-        socket.invoke('doc.create', {title: 'My Own Document'}, function(results) {
+        socket.invoke('doc.create', {name: 'My Own Document'}, function(results) {
             response = results[0];  // Evaluate the first listener
 
             // Evaluate the response
             expect(response.code).to.equal(200);
-            expect(response.data.title).to.equal('My Own Document');
+            expect(response.data.name).to.equal('My Own Document');
 
             // Check the the storage
-            Document.findOne({title: 'My Own Document'}).exec(function(err, document) {
+            Document.findOne({name: 'My Own Document'}).exec(function(err, document) {
                 if (!err) {
-                    expect(document.title).to.equal('My Own Document');
+                    expect(document.name).to.equal('My Own Document');
                 }
                 done();
             });
@@ -46,7 +46,7 @@ describe('Document Handling', function() {
             expect(response.code).to.equal(200);
             docs = response.data;
 
-            expect(docs[0].title).to.equal('My Own Document');
+            expect(docs[0].name).to.equal('My Own Document');
 
             documentID = docs[0].id;   // Capture the id for the next test
             done();
@@ -54,14 +54,14 @@ describe('Document Handling', function() {
     });
 
     it('Should be able to rename a document', function(done) {
-        socket.invoke('doc.rename', {id: documentID, title: 'Renamed'}, function(results) {
+        socket.invoke('doc.rename', {id: documentID, name: 'Renamed'}, function(results) {
             response = results[0];      // Evaluate the first listener
 
             // Evaluate the response
             expect(response.code).to.equal(200);
 
             // Check the database
-            Document.findOne({title: 'Renamed'}).exec(function(err, document) {
+            Document.findOne({name: 'Renamed'}).exec(function(err, document) {
                 expect(document._id.toString()).to.equal(documentID);
                 done();
             });
@@ -76,7 +76,7 @@ describe('Document Handling', function() {
             expect(response.code).to.equal(200);
 
             // Check the storage
-            Document.find({title: 'Renamed'}).exec(function(err, document) {
+            Document.find({name: 'Renamed'}).exec(function(err, document) {
                 expect(document).to.be.empty;
                 done();
             });

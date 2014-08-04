@@ -27,7 +27,7 @@ module.exports = (socket, mongoose) ->
 
   socket.on('doc.create', (data, response) ->
     console.log('[Doc]: Creating...')
-    document = new Document({title: data.title})
+    document = new Document({name: data.name})
     document.save((err) ->
       if err
         response({
@@ -46,7 +46,7 @@ module.exports = (socket, mongoose) ->
 
   socket.on('doc.rename', (data, response) ->
     console.log('[Doc]: Renaming...')
-    Document.update({_id: data.id}, {title: data.title}, (err) ->
+    Document.update({_id: data.id}, {name: data.name}, (err) ->
       if err
         response({
           code: 500
