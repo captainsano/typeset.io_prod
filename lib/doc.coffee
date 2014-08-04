@@ -2,6 +2,7 @@
 # Events: doc.list, doc.create, doc.update, doc.delete
 module.exports = (socket, mongoose) ->
   Document = require('./models/Document')(mongoose)
+  Delta = require('./models/Delta')(mongoose)
 
   socket.on('doc.list', (data, response) ->
     console.log('[Doc]: Listing...')
@@ -69,7 +70,16 @@ module.exports = (socket, mongoose) ->
         })
         return
       else
-        response({code: 200})
+        # TODO: Delete all the deltas for the document
+        Delta.remove({document: data.id}, (err) ->
+          if err
+            response({
+              code: 500
+              error: 'Could not delete document'
+            })
+          else
+            response({code: 200})
+        )
         return
     )
   )
