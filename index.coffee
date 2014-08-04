@@ -25,6 +25,8 @@ mongoose.connect('mongodb://localhost/typeset', (err) ->
       )
     )
 
+    # POST confirmation to create the socket namespace for
+    # the particular document type.
     app.post('/research', (req, res) ->
       docid = req.param('docid')
       # TODO: Check for document existence and editing rights

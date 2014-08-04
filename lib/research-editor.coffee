@@ -8,7 +8,7 @@ module.exports = (socket, mongoose, document) ->
       index = data.index
 
       delta = new Delta({
-        on: document._id
+        document: document._id
         name: 'section.add'
         args: {section_id: section_id, index: index}
       })
