@@ -16,8 +16,8 @@ describe('Document Handling', function() {
 
     // Global Setup
     before(function() {
-        require('../lib/doc')(socket, mongoose);
-        Document = require('../lib/models/Document')(mongoose)
+        require('../lib/doc')(socket, mongoose);;
+        Document = require('../lib/models/Document')(mongoose);
     });
 
     it('Should create a new document', function(done) {
