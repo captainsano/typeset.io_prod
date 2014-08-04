@@ -34,7 +34,7 @@ describe('Section Handling', function() {
         });
     });
 
-    // Adding Sections
+    //----------------------- Adding Sections -----------------------
     it('Should be able to create a new section', function(done) {
         socket.invoke('section.add', {section_id: 'a1bc', index: 0}, function(results) {
             response = results[0];  // First listener
@@ -181,7 +181,7 @@ describe('Section Handling', function() {
         });
     });
 
-    // Deleting Sections
+    //----------------------- Deleting Sections -----------------------
     it('Should be able to delete section from the middle', function(done) {
         socket.invoke('section.delete', {section_id: 'h7af'}, function(results) {
             response = results[0];  // First listener
