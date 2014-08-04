@@ -17,7 +17,7 @@ app.use(bodyParser.json());
 mongoose = require('mongoose');
 
 mongoose.connect('mongodb://localhost/typeset', function(err) {
-  var io, server;
+  var Document, io, namespaceDefined, namespaces, server;
   if (err) {
     console.log('MongoDB connection failed!');
   } else {
@@ -33,10 +33,14 @@ mongoose.connect('mongodb://localhost/typeset', function(err) {
         return console.log('Socket Disconnected!');
       });
     });
+    Document = require('./lib/models/Document')(mongoose);
+    namespaces = [];
+    namespaceDefined = function(docid) {
+      return namespaces.indexOf(docid) >= 0;
+    };
     app.post('/research', function(req, res) {
-      var Document, docid;
+      var docid;
       docid = req.param('docid');
-      Document = require('./lib/models/Document')(mongoose);
       console.log('Setting up namespace for: ' + docid);
       return Document.findOne({
         _id: docid
@@ -49,15 +53,26 @@ mongoose.connect('mongodb://localhost/typeset', function(err) {
             error: 'Invalid Document'
           });
         } else {
-          docSock = io.of('/' + docid);
-          docSock.on('connection', function(socket) {
-            console.log('Socket connected for document: ' + docid);
-            return require('./lib/research-editor')(socket, mongoose, document);
-          });
-          res.json({
-            code: 200
-          });
-          return console.log('Setup namespace: ' + docid);
+          if (!namespaceDefined(docid)) {
+            docSock = io.of('/' + docid);
+            docSock.on('connection', function(socket) {
+              console.log('Socket connected for document: ' + docid);
+              require('./lib/research-editor')(socket, mongoose, document);
+              return socket.on('disconnect', function(socket) {
+                return console.log('Disconnected socket for ' + docid);
+              });
+            });
+            res.json({
+              code: 200
+            });
+            console.log('Setup namespace: ' + docid);
+            return namespaces.push(docid);
+          } else {
+            console.log('namespace and handler defined already!');
+            return res.json({
+              code: 200
+            });
+          }
         }
       });
     });

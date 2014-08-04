@@ -25,12 +25,16 @@ mongoose.connect('mongodb://localhost/typeset', (err) ->
       )
     )
 
+    # Obtain the Document model
+    Document = require('./lib/models/Document')(mongoose)
+    namespaces = []
+    namespaceDefined = (docid) -> namespaces.indexOf(docid) >= 0
+
     # POST confirmation to create the socket namespace for
     # the particular document type.
     app.post('/research', (req, res) ->
       docid = req.param('docid')
       # TODO: Check for document existence and editing rights
-      Document = require('./lib/models/Document')(mongoose)
       console.log('Setting up namespace for: ' + docid)
       Document.findOne({_id: docid}, (err, document) ->
         if err or not document
@@ -41,15 +45,27 @@ mongoose.connect('mongodb://localhost/typeset', (err) ->
           })
         else
           # Create a namespace for that socket and attach handlers, then respond
-          docSock = io.of('/' + docid)
-          docSock.on('connection', (socket) ->
-            console.log('Socket connected for document: ' + docid)
-            require('./lib/research-editor')(socket, mongoose, document)
-          )
-          res.json({
-            code: 200
-          })
-          console.log('Setup namespace: ' + docid)
+          if not namespaceDefined(docid)
+            docSock = io.of('/' + docid)
+            docSock.on('connection', (socket) ->
+              console.log('Socket connected for document: ' + docid)
+
+              require('./lib/research-editor')(socket, mongoose, document)
+
+              socket.on('disconnect', (socket) ->
+                console.log('Disconnected socket for ' + docid)
+              )
+            )
+            res.json({
+              code: 200
+            })
+            console.log('Setup namespace: ' + docid)
+            namespaces.push(docid)
+          else
+            console.log('namespace and handler defined already!')
+            res.json({
+              code: 200
+            })
       )
     )
 
