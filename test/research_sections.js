@@ -182,5 +182,54 @@ describe('Section Handling', function() {
     });
 
     // Deleting Sections
+    it('Should be able to delete section from the middle', function(done) {
+        socket.invoke('section.delete', {section_id: 'h7af'}, function(results) {
+            response = results[0];  // First listener
 
+            expect(response.code).to.equal(200);
+
+            // Check storage for only one section
+            Delta.find({}).exec(function(err, results) {
+                expect(results.length).to.equal(5);
+
+                delta = results[0];
+
+                expect(delta.name).to.equal('section.add');
+                expect(delta.args.section_id).to.equal('a1bc');
+                expect(delta.args.index).to.equal(0);
+
+                delta = results[1];
+
+                expect(delta.name).to.equal('section.add');
+                expect(delta.args.section_id).to.equal('x9da');
+                expect(delta.args.index).to.equal(0);
+
+                delta = results[2];
+
+                expect(delta.name).to.equal('section.add');
+                expect(delta.args.section_id).to.equal('cd15');
+                expect(delta.args.index).to.equal(2);
+
+                delta = results[3];
+
+                expect(delta.name).to.equal('section.add');
+                expect(delta.args.section_id).to.equal('h7af');
+                expect(delta.args.index).to.equal(1);
+
+                delta = results[4];
+
+                expect(delta.name).to.equal('section.delete');
+                expect(delta.args.section_id).to.equal('h7af');
+
+                // Assert the resultant document
+                Composer.compose(docid, 0, function(err, composedDocument) {
+                    expect(composedDocument.sections.length).to.equal(3);
+                    expect(composedDocument.sections[0].id).to.equal('x9da');
+                    expect(composedDocument.sections[1].id).to.equal('a1bc');
+                    expect(composedDocument.sections[2].id).to.equal('cd15');
+                    done();
+                });
+            });
+        });
+    });
 });
