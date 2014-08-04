@@ -6,17 +6,18 @@ module.exports = (mongoose) ->
   # the research operations
   _aggregateDeltas = (deltas) ->
     document = {sections: []}
-    for i in [0..deltas.length - 1]
-      delta = deltas[i]
-      args = delta.args
-      switch(delta.name)
-        when 'section.add'
-          document.sections.splice(args.index, 0, {
-            section_id: args.section_id
-            title: ''
-            contents: ''
-            subsections: []
-          })
+    if deltas.length > 0
+      for i in [0..deltas.length - 1]
+        delta = deltas[i]
+        args = delta.args
+        switch(delta.name)
+          when 'section.add'
+            document.sections.splice(args.index, 0, {
+              section_id: args.section_id
+              title: ''
+              contents: ''
+              subsections: []
+            })
     return document
 
   # Method to compose the document from deltas

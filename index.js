@@ -56,6 +56,7 @@ mongoose.connect('mongodb://localhost/typeset', function(err) {
         } else {
           if (!namespaceDefined(docid)) {
             docSock = io.of('/' + docid);
+            namespaces.push(docid);
             docSock.on('connection', function(socket) {
               console.log('Socket connected for document: ' + docid);
               require('./lib/research-editor')(socket, mongoose, document);
@@ -63,17 +64,20 @@ mongoose.connect('mongodb://localhost/typeset', function(err) {
                 return console.log('Disconnected socket for ' + docid);
               });
             });
-            res.json({
-              code: 200,
-              data: Composer.compose(docid)
+            Composer.compose(docid, 0, function(err, document) {
+              return res.json({
+                code: 200,
+                data: document
+              });
             });
-            console.log('Setup namespace: ' + docid);
-            return namespaces.push(docid);
+            return console.log('Setup namespace: ' + docid);
           } else {
             console.log('namespace and handler defined already!');
-            return res.json({
-              code: 200,
-              data: Composer.compose(docid)
+            return Composer.compose(docid, 0, function(err, document) {
+              return res.json({
+                code: 200,
+                data: document
+              });
             });
           }
         }

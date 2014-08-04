@@ -48,6 +48,7 @@ mongoose.connect('mongodb://localhost/typeset', (err) ->
           # Create a namespace for that socket and attach handlers, then respond
           if not namespaceDefined(docid)
             docSock = io.of('/' + docid)
+            namespaces.push(docid)
             docSock.on('connection', (socket) ->
               console.log('Socket connected for document: ' + docid)
 
@@ -57,18 +58,21 @@ mongoose.connect('mongodb://localhost/typeset', (err) ->
                 console.log('Disconnected socket for ' + docid)
               )
             )
-            res.json({
-              code: 200
-              data: Composer.compose(docid)
-            })
+            Composer.compose(docid, 0, (err, document) ->
+              res.json({
+                code: 200
+                data: document
+              })
+            )
             console.log('Setup namespace: ' + docid)
-            namespaces.push(docid)
           else
             console.log('namespace and handler defined already!')
-            res.json({
-              code: 200
-              data: Composer.compose(docid)
-            })
+            Composer.compose(docid, 0, (err, document) ->
+              res.json({
+                code: 200
+                data: document
+              })
+            )
       )
     )
 
