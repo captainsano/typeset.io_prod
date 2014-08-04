@@ -37,12 +37,10 @@ mongoose.connect('mongodb://localhost/typeset', function(err) {
       var Document, docid;
       docid = req.param('docid');
       Document = require('./lib/models/Document')(mongoose);
-      console.log('Searching for ' + docid);
       return Document.findOne({
         _id: docid
       }, function(err, document) {
         var docSock;
-        console.log(document);
         if (err || !document) {
           return res.json({
             code: 400,

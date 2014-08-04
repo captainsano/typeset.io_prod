@@ -29,9 +29,7 @@ mongoose.connect('mongodb://localhost/typeset', (err) ->
       docid = req.param('docid')
       # TODO: Check for document existence and editing rights
       Document = require('./lib/models/Document')(mongoose)
-      console.log('Searching for ' + docid)
       Document.findOne({_id: docid}, (err, document) ->
-        console.log(document)
         if err or not document
           res.json({
             code: 400
