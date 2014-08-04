@@ -16,4 +16,7 @@ module.exports.invoke = (eventName, data, done) ->
       doneCount += 1
       _results.push(result);
       if doneCount == listeners[eventName].length then done(_results)
-  ) for listener in listeners[eventName]
+    ) for listener in listeners[eventName]
+  else
+    # In case there are no listeners
+    done([]);
