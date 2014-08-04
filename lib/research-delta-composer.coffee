@@ -13,7 +13,7 @@ module.exports = (mongoose) ->
         switch(delta.name)
           when 'section.add'
             document.sections.splice(args.index, 0, {
-              section_id: args.section_id
+              id: args.section_id
               title: ''
               contents: ''
               subsections: []
