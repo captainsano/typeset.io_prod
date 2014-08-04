@@ -33,6 +33,7 @@ mongoose.connect('mongodb://localhost/typeset', (err) ->
     # POST confirmation to create the socket namespace for
     # the particular document type.
     app.post('/research', (req, res) ->
+      Composer = require('./lib/research-delta-composer')(mongoose)
       docid = req.param('docid')
       # TODO: Check for document existence and editing rights
       console.log('Setting up namespace for: ' + docid)
@@ -58,6 +59,7 @@ mongoose.connect('mongodb://localhost/typeset', (err) ->
             )
             res.json({
               code: 200
+              data: Composer.compose(docid)
             })
             console.log('Setup namespace: ' + docid)
             namespaces.push(docid)
@@ -65,6 +67,7 @@ mongoose.connect('mongodb://localhost/typeset', (err) ->
             console.log('namespace and handler defined already!')
             res.json({
               code: 200
+              data: Composer.compose(docid)
             })
       )
     )

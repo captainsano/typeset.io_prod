@@ -39,7 +39,8 @@ mongoose.connect('mongodb://localhost/typeset', function(err) {
       return namespaces.indexOf(docid) >= 0;
     };
     app.post('/research', function(req, res) {
-      var docid;
+      var Composer, docid;
+      Composer = require('./lib/research-delta-composer')(mongoose);
       docid = req.param('docid');
       console.log('Setting up namespace for: ' + docid);
       return Document.findOne({
@@ -63,14 +64,16 @@ mongoose.connect('mongodb://localhost/typeset', function(err) {
               });
             });
             res.json({
-              code: 200
+              code: 200,
+              data: Composer.compose(docid)
             });
             console.log('Setup namespace: ' + docid);
             return namespaces.push(docid);
           } else {
             console.log('namespace and handler defined already!');
             return res.json({
-              code: 200
+              code: 200,
+              data: Composer.compose(docid)
             });
           }
         }
