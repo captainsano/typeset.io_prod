@@ -9,6 +9,7 @@
   "author": "Santhos Baala RS",
   "license": "ISC",
   "dependencies": {
+    "body-parser": "^1.5.2",
     "express": "^4.7.2",
     "socket.io": "^1.0.6"
   }

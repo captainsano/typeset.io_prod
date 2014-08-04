@@ -1,6 +1,8 @@
 cors = require('cors')
 app = require('express')();
+bodyParser = require('body-parser')
 app.use(cors({origin: true, credentials: true})) # Enable CORS across the entire express app
+app.use(bodyParser.json())
 
 mongoose = require('mongoose');
 mongoose.connect('mongodb://localhost/typeset', (err) ->
@@ -20,6 +22,31 @@ mongoose.connect('mongodb://localhost/typeset', (err) ->
 
       socket.on('disconnect', (socket) ->
         console.log('Socket Disconnected!')
+      )
+    )
+
+    app.post('/research', (req, res) ->
+      docid = req.param('docid')
+      # TODO: Check for document existence and editing rights
+      Document = require('./lib/models/Document')(mongoose)
+      console.log('Searching for ' + docid)
+      Document.findOne({_id: docid}, (err, document) ->
+        console.log(document)
+        if err or not document
+          res.json({
+            code: 400
+            error: 'Invalid Document'
+          })
+        else
+          # Create a namespace for that socket and attach handlers, then respond
+          docSock = io.of('/' + docid)
+          docSock.on('connection', (socket) ->
+            console.log('Socket connected for document: ' + docid)
+            require('./lib/research/editor')(socket, mongoose)
+          )
+          res.json({
+            code: 200
+          })
       )
     )
 
