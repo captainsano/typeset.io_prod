@@ -25,4 +25,27 @@ module.exports = (socket, mongoose, document) ->
               code: 200    # Just send ACK
             })
       )
-  )
+    )
+
+    socket.on('section.delete', (data, response) ->
+      section_id = data.section_id
+
+      delta = new Delta({
+        document: document._id
+        name: 'section.delete'
+        args: {section_id: section_id}
+      })
+      delta.markModified('args')
+      delta.save(
+        (err) ->
+          if err
+            response({
+              code: 500
+              error: 'Error saving delta'
+            })
+          else
+            response({
+              code: 200
+            })
+      )
+    )

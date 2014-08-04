@@ -11,6 +11,7 @@ module.exports = (mongoose) ->
         delta = deltas[i]
         args = delta.args
         switch(delta.name)
+          # Add a section at given index
           when 'section.add'
             document.sections.splice(args.index, 0, {
               id: args.section_id
@@ -18,6 +19,13 @@ module.exports = (mongoose) ->
               contents: ''
               subsections: []
             })
+          # Remove a section given its id
+          when 'section.delete'
+            for i in [0..document.sections.length - 1]
+              if document.sections[i].id == args.section_id
+                document.sections.splice(i, 1)
+                break
+
     return document
 
   # Method to compose the document from deltas
@@ -32,9 +40,7 @@ module.exports = (mongoose) ->
           console.log(err)
           callback?('Error Fetching Deltas!', null)
         else
-          console.log('Fetched Deltas: ')
           document = _aggregateDeltas(deltas)
-          console.log(document)
           callback?(null, document)
     )
 
