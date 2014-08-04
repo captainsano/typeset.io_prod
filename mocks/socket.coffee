@@ -10,8 +10,10 @@ module.exports.on = (eventName, listener) ->
 # Invokes the listeners of an event type
 module.exports.invoke = (eventName, data, done) ->
   doneCount = 0;
+  _results = [];
   if listeners.hasOwnProperty(eventName) then listener(data,
-    () ->
+    (result) ->
       doneCount += 1
-      if doneCount == listeners[eventName].length then done()
+      _results.push(result);
+      if doneCount == listeners[eventName].length then done(_results)
   ) for listener in listeners[eventName]
