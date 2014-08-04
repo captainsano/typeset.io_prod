@@ -6,7 +6,7 @@ module.exports = (mongoose) ->
     DeltaSchema = new mongoose.Schema({
       document: mongoose.Schema.Types.ObjectId              # On which object was the delta performed
       name: String                                    # Name of the delta
-      timestamp: {type: Date, default: Date.now()}    # Time at which the delta was performed
+      timestamp: {type: Date, default: Date.now}    # Time at which the delta was performed
 #     by: mongoose.Schema.Types.ObjectId
       args: mongoose.Schema.Types.Mixed               # The arguments that are relevant for the delta
     })
