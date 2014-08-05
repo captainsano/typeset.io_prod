@@ -37,6 +37,35 @@ module.exports = (mongoose) ->
                   subsubsections: []
                 })
                 break
+          # Delete a subsection
+          when 'subsection.delete'
+            for i in [0..document.sections.length - 1]
+              if document.sections[i].id == args.section_id
+                for j in [0..document.sections[i].subsections.length - 1]
+                  if document.sections[i].subsections[j].id == args.subsection_id
+                    document.sections[i].subsections.splice(j, 1)
+                    break
+          # Add a subsubsection
+          when 'subsubsection.add'
+            for i in [0..document.sections.length - 1]
+              if document.sections[i].id == args.section_id
+                for j in [0..document.sections[i].subsections.length - 1]
+                  if document.sections[i].subsections[j].id == args.subsection_id
+                    document.sections[i].subsections[j].subsubsections.splice(args.index, 0, {
+                      id: args.subsubsection_id
+                      title: ''
+                      contents: ''
+                    })
+          # Delete a subsubsection
+          when 'subsubsection.delete'
+            for i in [0..document.sections.length - 1]
+              if document.sections[i].id == args.section_id
+                for j in [0..document.sections[i].subsections.length - 1]
+                  if document.sections[i].subsections[j].id == args.subsection_id
+                    for k in [0..document.sections[i].subsections[j].subsubsections.length - 1]
+                      if document.sections[i].subsections[j].subsubsections[k].id == args.subsubsection_id
+                        document.sections[i].subsections[j].subsubsections.splice(k, 1)
+                        break
 
     return document
 
