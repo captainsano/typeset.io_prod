@@ -202,4 +202,161 @@ describe('Section Handling', function() {
             });
         });
     });
+
+    /*-------- Adding subsections in second section ---------*/
+    it('Should be able to create a new subsection - second', function(done) {
+        socket.invoke('subsection.add', {section_id: 'def', subsection_id: '1efc', index: 0}, function(results) {
+            response = results[0];  // First listener
+
+            expect(response.code).to.equal(200);
+
+            // Check storage for only one subsection
+            Delta.find({document: document._id}).exec(function(err, results) {
+                expect(results.length).to.equal(7);
+
+                delta = results[6];
+
+                expect(delta.name).to.equal('subsection.add');
+                expect(delta.args.section_id).to.equal('def');
+                expect(delta.args.subsection_id).to.equal('1efc');
+                expect(delta.args.index).to.equal(0);
+
+                // Assert the resultant document
+                Composer.compose(docid, 0, function(err, composedDocument) {
+                    expect(composedDocument.sections[1].subsections.length).to.equal(1);
+                    expect(composedDocument.sections[1].subsections[0].id).to.equal('1efc');
+                    done();
+                });
+            });
+        });
+    });
+
+    it('Should be able to add a subsection at the beginning  - second', function(done) {
+        socket.invoke('subsection.add', {section_id: 'def', subsection_id: 'acfc', index: 0}, function(results) {
+            response = results[0];  // First listener
+
+            expect(response.code).to.equal(200);
+
+            // Check storage for only one subsection
+            Delta.find({document: document._id}).exec(function(err, results) {
+                expect(results.length).to.equal(8);
+
+                delta = results[6];
+
+                expect(delta.name).to.equal('subsection.add');
+                expect(delta.args.section_id).to.equal('def');
+                expect(delta.args.subsection_id).to.equal('1efc');
+                expect(delta.args.index).to.equal(0);
+
+                delta = results[7];
+
+                expect(delta.name).to.equal('subsection.add');
+                expect(delta.args.section_id).to.equal('def');
+                expect(delta.args.subsection_id).to.equal('acfc');
+                expect(delta.args.index).to.equal(0);
+
+                // Assert the resultant document
+                Composer.compose(docid, 0, function(err, composedDocument) {
+                    expect(composedDocument.sections[1].subsections.length).to.equal(2);
+                    expect(composedDocument.sections[1].subsections[0].id).to.equal('acfc');
+                    expect(composedDocument.sections[1].subsections[1].id).to.equal('1efc');
+                    done();
+                });
+            });
+        });
+    });
+
+    it('Should be able to add a subsection at the end - second', function(done) {
+        socket.invoke('subsection.add', {section_id: 'def', subsection_id: 'nc7a', index: 2}, function(results) {
+            response = results[0];  // First listener
+
+            expect(response.code).to.equal(200);
+
+            // Check storage for only one subsection
+            Delta.find({document: document._id}).exec(function(err, results) {
+                expect(results.length).to.equal(9);
+
+                delta = results[6];
+
+                expect(delta.name).to.equal('subsection.add');
+                expect(delta.args.section_id).to.equal('def');
+                expect(delta.args.subsection_id).to.equal('1efc');
+                expect(delta.args.index).to.equal(0);
+
+                delta = results[7];
+
+                expect(delta.name).to.equal('subsection.add');
+                expect(delta.args.section_id).to.equal('def');
+                expect(delta.args.subsection_id).to.equal('acfc');
+                expect(delta.args.index).to.equal(0);
+
+                delta = results[8];
+
+                expect(delta.name).to.equal('subsection.add');
+                expect(delta.args.section_id).to.equal('def');
+                expect(delta.args.subsection_id).to.equal('nc7a');
+                expect(delta.args.index).to.equal(2);
+
+                // Assert the resultant document
+                Composer.compose(docid, 0, function(err, composedDocument) {
+                    expect(composedDocument.sections[1].subsections.length).to.equal(3);
+                    expect(composedDocument.sections[1].subsections[0].id).to.equal('acfc');
+                    expect(composedDocument.sections[1].subsections[1].id).to.equal('1efc');
+                    expect(composedDocument.sections[1].subsections[2].id).to.equal('nc7a');
+                    done();
+                });
+            });
+        });
+    });
+
+    it('Should be able to add a subsection in the middle - second', function(done) {
+        socket.invoke('subsection.add', {section_id: 'def', subsection_id: 'xbmc', index: 1}, function(results) {
+            response = results[0];  // First listener
+
+            expect(response.code).to.equal(200);
+
+            // Check storage for only one subsection
+            Delta.find({document: document._id}).exec(function(err, results) {
+                expect(results.length).to.equal(10);
+
+                delta = results[6];
+
+                expect(delta.name).to.equal('subsection.add');
+                expect(delta.args.section_id).to.equal('def');
+                expect(delta.args.subsection_id).to.equal('1efc');
+                expect(delta.args.index).to.equal(0);
+
+                delta = results[7];
+
+                expect(delta.name).to.equal('subsection.add');
+                expect(delta.args.section_id).to.equal('def');
+                expect(delta.args.subsection_id).to.equal('acfc');
+                expect(delta.args.index).to.equal(0);
+
+                delta = results[8];
+
+                expect(delta.name).to.equal('subsection.add');
+                expect(delta.args.section_id).to.equal('def');
+                expect(delta.args.subsection_id).to.equal('nc7a');
+                expect(delta.args.index).to.equal(2);
+
+                delta = results[9];
+
+                expect(delta.name).to.equal('subsection.add');
+                expect(delta.args.section_id).to.equal('def');
+                expect(delta.args.subsection_id).to.equal('xbmc');
+                expect(delta.args.index).to.equal(1);
+
+                // Assert the resultant document
+                Composer.compose(docid, 0, function(err, composedDocument) {
+                    expect(composedDocument.sections[1].subsections.length).to.equal(4);
+                    expect(composedDocument.sections[1].subsections[0].id).to.equal('acfc');
+                    expect(composedDocument.sections[1].subsections[1].id).to.equal('xbmc');
+                    expect(composedDocument.sections[1].subsections[2].id).to.equal('1efc');
+                    expect(composedDocument.sections[1].subsections[3].id).to.equal('nc7a');
+                    done();
+                });
+            });
+        });
+    });
 });
