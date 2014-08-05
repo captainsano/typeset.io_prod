@@ -25,6 +25,18 @@ module.exports = (mongoose) ->
               if document.sections[i].id == args.section_id
                 document.sections.splice(i, 1)
                 break
+          # Add a subsection
+          when 'subsection.add'
+            # Find the section
+            for i in [0..document.sections.length - 1]
+              if document.sections[i].id == args.section_id
+                document.sections[i].subsections.splice(args.index, 0, {
+                  id: args.subsection_id
+                  title: ''
+                  contents: ''
+                  subsubsections: []
+                })
+                break
 
     return document
 
