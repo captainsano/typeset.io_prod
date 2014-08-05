@@ -18,9 +18,14 @@ describe('Section Handling', function() {
 
     // Global Setup
     before(function() {
+        mockgoose.reset();
         Document = require('../lib/models/Document')(mongoose);
         Delta = require('../lib/models/Delta')(mongoose);
         Composer = require('../lib/research-delta-composer')(mongoose);
+    });
+
+    after(function() {
+        mockgoose.reset();
     });
 
     // NOT A TEST CASE
@@ -42,7 +47,7 @@ describe('Section Handling', function() {
             expect(response.code).to.equal(200);
 
             // Check storage for only one section
-            Delta.find({}).exec(function(err, results) {
+            Delta.find({document: document._id}).exec(function(err, results) {
                 expect(results.length).to.equal(1);
 
                 delta = results[0];
@@ -68,7 +73,7 @@ describe('Section Handling', function() {
             expect(response.code).to.equal(200);
 
             // Check storage for only one section
-            Delta.find({}).exec(function(err, results) {
+            Delta.find({document: document._id}).exec(function(err, results) {
                 expect(results.length).to.equal(2);
 
                 delta = results[0];
@@ -101,7 +106,7 @@ describe('Section Handling', function() {
             expect(response.code).to.equal(200);
 
             // Check storage for only one section
-            Delta.find({}).exec(function(err, results) {
+            Delta.find({document: document._id}).exec(function(err, results) {
                 expect(results.length).to.equal(3);
 
                 delta = results[0];
@@ -141,7 +146,7 @@ describe('Section Handling', function() {
             expect(response.code).to.equal(200);
 
             // Check storage for only one section
-            Delta.find({}).exec(function(err, results) {
+            Delta.find({document: document._id}).exec(function(err, results) {
                 expect(results.length).to.equal(4);
 
                 delta = results[0];
@@ -189,7 +194,7 @@ describe('Section Handling', function() {
             expect(response.code).to.equal(200);
 
             // Check storage for only one section
-            Delta.find({}).exec(function(err, results) {
+            Delta.find({document: document._id}).exec(function(err, results) {
                 expect(results.length).to.equal(5);
 
                 delta = results[0];
@@ -240,7 +245,7 @@ describe('Section Handling', function() {
             expect(response.code).to.equal(200);
 
             // Check storage for only one section
-            Delta.find({}).exec(function(err, results) {
+            Delta.find({document: document._id}).exec(function(err, results) {
                 expect(results.length).to.equal(6);
 
                 delta = results[0];
@@ -295,7 +300,7 @@ describe('Section Handling', function() {
             expect(response.code).to.equal(200);
 
             // Check storage for only one section
-            Delta.find({}).exec(function(err, results) {
+            Delta.find({document: document._id}).exec(function(err, results) {
                 expect(results.length).to.equal(7);
 
                 delta = results[0];
@@ -354,7 +359,7 @@ describe('Section Handling', function() {
             expect(response.code).to.equal(200);
 
             // Check storage for only one section
-            Delta.find({}).exec(function(err, results) {
+            Delta.find({document: document._id}).exec(function(err, results) {
                 expect(results.length).to.equal(8);
 
                 delta = results[0];

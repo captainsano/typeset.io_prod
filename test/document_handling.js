@@ -16,8 +16,13 @@ describe('Document Handling', function() {
 
     // Global Setup
     before(function() {
+        mockgoose.reset();
         require('../lib/doc')(socket, mongoose);
         Document = require('../lib/models/Document')(mongoose);
+    });
+
+    after(function() {
+        mockgoose.reset();
     });
 
     it('Should create a new document', function(done) {
