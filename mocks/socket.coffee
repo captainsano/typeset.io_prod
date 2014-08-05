@@ -7,6 +7,11 @@ module.exports.on = (eventName, listener) ->
   console.log('Attaching event listener to ' + eventName)
   listeners[eventName].push(listener)
 
+# Remove all event listeners for all event Names
+module.exports.offAll = () ->
+  listeners = {}
+  return
+
 # Invokes the listeners of an event type
 module.exports.invoke = (eventName, data, done) ->
   doneCount = 0;
