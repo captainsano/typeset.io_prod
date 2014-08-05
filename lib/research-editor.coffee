@@ -13,6 +13,7 @@ module.exports = (socket, mongoose, document) ->
       )
       return
 
+    # ------------ Protocol Implementation ------------
     socket.on('section.add', (data, response) ->
       section_id = data.section_id
       index = data.index
@@ -32,6 +33,31 @@ module.exports = (socket, mongoose, document) ->
         document: document._id
         name: 'section.delete'
         args: {section_id: section_id}
+      })
+      saveDelta(delta, response)
+    )
+
+    socket.on('subsection.add', (data, response) ->
+      section_id = data.section_id
+      subsection_id = data.subsection_id
+      index = data.index
+
+      delta = new Delta({
+        document: document._id
+        name: 'subsection.add'
+        args: {section_id: section_id, subsection_id: subsection_id, index: index}
+      })
+      saveDelta(delta, response)
+    )
+
+    socket.on('subsection.delete', (data, response) ->
+      section_id = data.section_id
+      subsection_id = data.subsection_id
+
+      delta = new Delta({
+        document: document._id
+        name: 'subsection.delete'
+        args: {section_id: section_id, subsection_id: subsection_id}
       })
       saveDelta(delta, response)
     )
