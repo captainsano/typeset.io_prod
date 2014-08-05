@@ -3,6 +3,16 @@
 module.exports = (socket, mongoose, document) ->
     Delta = require('./models/Delta')(mongoose)
 
+    # Function to save the delta and provide a standard response
+    saveDelta = (delta, response) ->
+      delta.save(
+        (err) ->
+          if err then response({code: 500, error: 'Error saving delta'})
+          else response({code: 200})
+          return
+      )
+      return
+
     socket.on('section.add', (data, response) ->
       section_id = data.section_id
       index = data.index
@@ -12,19 +22,7 @@ module.exports = (socket, mongoose, document) ->
         name: 'section.add'
         args: {section_id: section_id, index: index}
       })
-      delta.markModified('args')
-      delta.save(
-        (err) ->
-          if err
-            response({
-              code: 500,
-              error: 'Error saving delta'
-            })
-          else
-            response({
-              code: 200    # Just send ACK
-            })
-      )
+      saveDelta(delta, response)
     )
 
     socket.on('section.delete', (data, response) ->
@@ -35,17 +33,5 @@ module.exports = (socket, mongoose, document) ->
         name: 'section.delete'
         args: {section_id: section_id}
       })
-      delta.markModified('args')
-      delta.save(
-        (err) ->
-          if err
-            response({
-              code: 500
-              error: 'Error saving delta'
-            })
-          else
-            response({
-              code: 200
-            })
-      )
+      saveDelta(delta, response)
     )
