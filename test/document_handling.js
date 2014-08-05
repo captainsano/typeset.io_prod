@@ -23,6 +23,7 @@ describe('Document Handling', function() {
 
     after(function() {
         mockgoose.reset();
+        socket.offAll();
     });
 
     it('Should create a new document', function(done) {

@@ -26,6 +26,7 @@ describe('Section Handling', function() {
 
     after(function() {
         mockgoose.reset();
+        socket.offAll();
     });
 
     // NOT A TEST CASE
