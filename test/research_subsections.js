@@ -13,7 +13,7 @@ var assert = chai.assert,
  * Tests check the sub-section handling capabilities in a research documents
  * NOTE: These tests are intended for continous execution and requires a document
  */
-describe('Section Handling', function() {
+describe('SubSection Handling', function() {
     var Document, Delta, document, docid, Composer;
 
     // Global Setup
