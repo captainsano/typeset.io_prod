@@ -60,7 +60,8 @@ describe('Section Handling', function() {
                 delta = results[2];
 
                 expect(delta.name).to.equal('subsection.add');
-                expect(delta.args.section_id).to.equal('1efc');
+                expect(delta.args.section_id).to.equal('abc');
+                expect(delta.args.subsection_id).to.equal('1efc');
                 expect(delta.args.index).to.equal(0);
 
                 // Assert the resultant document
@@ -86,13 +87,15 @@ describe('Section Handling', function() {
                 delta = results[2];
 
                 expect(delta.name).to.equal('subsection.add');
-                expect(delta.args.section_id).to.equal('1efc');
+                expect(delta.args.section_id).to.equal('abc');
+                expect(delta.args.subsection_id).to.equal('1efc');
                 expect(delta.args.index).to.equal(0);
 
                 delta = results[3];
 
                 expect(delta.name).to.equal('subsection.add');
-                expect(delta.args.section_id).to.equal('acfc');
+                expect(delta.args.section_id).to.equal('abc');
+                expect(delta.args.subsection_id).to.equal('acfc');
                 expect(delta.args.index).to.equal(0);
 
                 // Assert the resultant document
@@ -114,24 +117,27 @@ describe('Section Handling', function() {
 
             // Check storage for only one subsection
             Delta.find({document: document._id}).exec(function(err, results) {
-                expect(results.length).to.equal(6);
+                expect(results.length).to.equal(5);
 
                 delta = results[2];
 
                 expect(delta.name).to.equal('subsection.add');
-                expect(delta.args.section_id).to.equal('1efc');
+                expect(delta.args.section_id).to.equal('abc');
+                expect(delta.args.subsection_id).to.equal('1efc');
                 expect(delta.args.index).to.equal(0);
 
                 delta = results[3];
 
                 expect(delta.name).to.equal('subsection.add');
-                expect(delta.args.section_id).to.equal('acfc');
+                expect(delta.args.section_id).to.equal('abc');
+                expect(delta.args.subsection_id).to.equal('acfc');
                 expect(delta.args.index).to.equal(0);
 
                 delta = results[4];
 
                 expect(delta.name).to.equal('subsection.add');
-                expect(delta.args.section_id).to.equal('nc7a');
+                expect(delta.args.section_id).to.equal('abc');
+                expect(delta.args.subsection_id).to.equal('nc7a');
                 expect(delta.args.index).to.equal(2);
 
                 // Assert the resultant document
@@ -154,35 +160,39 @@ describe('Section Handling', function() {
 
             // Check storage for only one subsection
             Delta.find({document: document._id}).exec(function(err, results) {
-                expect(results.length).to.equal(7);
+                expect(results.length).to.equal(6);
 
                 delta = results[2];
 
                 expect(delta.name).to.equal('subsection.add');
-                expect(delta.args.section_id).to.equal('1efc');
+                expect(delta.args.section_id).to.equal('abc');
+                expect(delta.args.subsection_id).to.equal('1efc');
                 expect(delta.args.index).to.equal(0);
 
                 delta = results[3];
 
                 expect(delta.name).to.equal('subsection.add');
-                expect(delta.args.section_id).to.equal('acfc');
+                expect(delta.args.section_id).to.equal('abc');
+                expect(delta.args.subsection_id).to.equal('acfc');
                 expect(delta.args.index).to.equal(0);
 
                 delta = results[4];
 
                 expect(delta.name).to.equal('subsection.add');
-                expect(delta.args.section_id).to.equal('nc7a');
+                expect(delta.args.section_id).to.equal('abc');
+                expect(delta.args.subsection_id).to.equal('nc7a');
                 expect(delta.args.index).to.equal(2);
 
                 delta = results[5];
 
                 expect(delta.name).to.equal('subsection.add');
-                expect(delta.args.section_id).to.equal('xbmc');
+                expect(delta.args.section_id).to.equal('abc');
+                expect(delta.args.subsection_id).to.equal('xbmc');
                 expect(delta.args.index).to.equal(1);
 
                 // Assert the resultant document
                 Composer.compose(docid, 0, function(err, composedDocument) {
-                    expect(composedDocument.sections[0].subsections.length).to.equal(3);
+                    expect(composedDocument.sections[0].subsections.length).to.equal(4);
                     expect(composedDocument.sections[0].subsections[0].id).to.equal('acfc');
                     expect(composedDocument.sections[0].subsections[1].id).to.equal('xbmc');
                     expect(composedDocument.sections[0].subsections[2].id).to.equal('1efc');
