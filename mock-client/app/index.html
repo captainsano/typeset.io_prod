@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Documents</title>
+
+    <!-- build:js SOCKET_IO_CDN -->
+    <script src="bower_components/socket.io-client/socket.io.js"></script>
+    <!-- /build -->
+    <!-- build:js JQUERY_CDN -->
+    <script src="bower_components/jquery/dist/jquery.js"></script>
+    <!-- /build -->
+    <!-- build:js ANGULAR_CDN -->
+    <script src="bower_components/angular/angular.js"></script>
+    <!-- /build -->
+    <!-- build:js ANGULAR_UI_ROUTER_CDN -->
+    <script src="bower_components/angular-ui-router/release/angular-ui-router.js"></script>
+    <!-- /build -->
+
+    <!-- build:css NORMALIZE_CDN -->
+    <link href="bower_components/normalize.css/normalize.css" rel="stylesheet">
+    <!-- /build -->
+    <!-- build:css FONTAWESOME_CDN -->
+    <link href="bower_components/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+    <!-- /build -->
+    <!-- build:less css/app.min.css -->
+    <link href="less/main.less" rel="stylesheet/less">
+    <!-- /build -->
+    <!-- build:remove -->
+    <script>
+        less = {logLevel: 0}
+    </script>
+    <script src="bower_components/less/dist/less-1.7.3.js"></script>
+    <!-- /build -->
+</head>
+<body ng-app="ts">
+
+<div id="page-wrapper" ui-view></div>
+
+<div ng-controller="ActionSheetController">
+    <div id="action-sheet-container" ng-if="(sheets.visibleSheets.length > 0)">
+        <div class="action-sheet-repeat-item" ng-repeat="sheet in sheets.visibleSheets" ng-init="sheetData = sheet.data">
+            <div class="background"></div>
+            <div class="action-sheet-pinner container" ng-include="sheet.templateURL"></div>
+        </div>
+    </div>
+</div>
+
+<div id="loader" ng-controller="LoaderBoxController" ng-show="(loader.refCount >= 1)">
+    <div class="box">
+        <i class="fa fa-2x fa-sun-o fa-spin"></i>
+    </div>
+</div>
+
+<!-- AngularJS Includes -->
+<!-- build:js js/app.min.js -->
+<script src="components/common/util_module.js"></script>
+<script src="components/common/app_module.js"></script>
+<script src="components/common/socket.js"></script>
+<script src="components/common/loader.js"></script>
+<script src="components/common/actionsheet.js"></script>
+<script src="components/common/placefocus.js"></script>
+<script src="components/docbrowser/docbrowser.js"></script>
+<script src="components/docbrowser/doc.service.js"></script>
+<script src="components/docbrowser/deldoc.controller.js"></script>
+<script src="components/docbrowser/newdoc.controller.js"></script>
+<!-- /build -->
+</body>
+</html>

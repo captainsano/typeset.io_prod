@@ -1,0 +1,16 @@
+<div class="navbar">
+    <div class="button" ng-if="(listState === 'LOADED')" ng-click="newdoc()">New Document</div>
+    <div class="clearing"></div>
+</div>
+<div id="docbrowser" class="container">
+    <div class="list">
+        <div class="loading" ng-if="(listState === 'LOADING')">
+            <i class="fa fa-2x fa-sun-o fa-spin"></i>
+        </div>
+        <!--TODO: Add Searchbox <div class="searchbox"><input type="text"></div>-->
+        <div class="doc" ng-if="(listState === 'LOADED')" ng-repeat="doc in storage.docs" ng-click="openDoc(doc._id)">
+            {{doc.name}}
+            <i class="delete-button fa fa-1x fa-times" ng-click="deleteDoc(doc, $event)"></i>
+        </div>
+    </div>
+</div>

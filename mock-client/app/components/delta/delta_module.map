@@ -1,0 +1,10 @@
+{
+  "version": 3,
+  "file": "delta_module.js",
+  "sourceRoot": "",
+  "sources": [
+    "delta_module.coffee"
+  ],
+  "names": [],
+  "mappings": ";AACA,OAAO,CAAC,MAAR,CAAe,OAAf,EAAwB,CACtB,QADsB,CAAxB,CAAA,CAAA"
+}

@@ -1,0 +1,16 @@
+<div id="delete-doc" class="action-sheet" ng-controller="DeleteDocumentActionSheetController">
+    <h3 class="title">Confirm Delete Document?</h3>
+
+    <div class="loading" ng-if="(status === 'DELETING')">
+        <i class="fa fa-2x fa-sun-o fa-spin"></i>
+    </div>
+
+    <form ng-if="(status === 'DEFAULT')" ng-submit="yes()">
+        <div class="warning">This action cannot be undone!</div>
+        {{doc.name}}
+        <div class="buttons">
+            <button ng-click="no()">No</button>
+            <input class="bad" type="submit" value="Yes" />
+        </div>
+    </form>
+</div>

@@ -1,0 +1,84 @@
+@NAVBAR_HEIGHT: 44px;
+
+.navbar {
+  .user-select-none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  height: @NAVBAR_HEIGHT;
+  background: @GREEN_SEA;
+  z-index: 10;
+
+  .button {
+    float: right;
+    padding: 0.5em 0.75em;
+    background: lighten(@CLOUDS, 5%);
+    color: @GREEN_SEA;
+    border-radius: 2.5px;
+    margin: 5px;
+
+    cursor: pointer;
+
+    &:hover {
+      background: @CLOUDS;
+    }
+
+    &:active {
+      background: darken(@CLOUDS, 5%);
+    }
+  }
+}
+
+#docbrowser {
+  .user-select-none;
+  .border-box;
+  position: relative;
+  padding-top: @NAVBAR_HEIGHT;
+  background: #f9f9f9;
+
+  .list {
+    position: relative;
+    float: left;
+    width: 50%;
+    height: 100%;
+    border-right: 1px solid @CLOUDS;
+
+    .loading {
+      text-align: center;
+      padding-top: 5.0em;
+      color: @ASBESTOS;
+    }
+
+    .doc {
+      position: relative;
+      padding: 1em 2em 1em 1em;
+      cursor: pointer;
+      border-bottom: 1px solid @CLOUDS;
+
+      &:hover {
+        background: @CLOUDS;
+
+        .delete-button {
+          color: fade(@ALIZARIN, 50%);
+        }
+      }
+
+      &:active {
+        background: darken(@CLOUDS, 5%);
+      }
+
+      .delete-button {
+        position: absolute;
+        top: 1em;
+        right: 1em;
+        color: fade(@ALIZARIN, 25%);
+
+        &:hover {
+          color: @ALIZARIN;
+        }
+      }
+    }
+  }
+}

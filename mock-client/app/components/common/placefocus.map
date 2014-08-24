@@ -1,0 +1,10 @@
+{
+  "version": 3,
+  "file": "placefocus.js",
+  "sourceRoot": "",
+  "sources": [
+    "placefocus.coffee"
+  ],
+  "names": [],
+  "mappings": ";AACA,OACA,CAAC,MADD,CACQ,SADR,CAEA,CAAC,SAFD,CAEW,YAFX,EAEyB;EACrB,UADqB,EAErB,SAAC,QAAD,GAAA;WACE;AAAA,MACE,QAAA,EAAU,GADZ;AAAA,MAEE,IAAA,EAAM,SAAC,KAAD,EAAQ,OAAR,GAAA;eAAoB,QAAA,CAAS,SAAA,GAAA;iBAAM,OAAO,CAAC,KAAR,CAAA,EAAN;QAAA,CAAT,EAApB;MAAA,CAFR;MADF;EAAA,CAFqB;CAFzB,CAAA,CAAA"
+}

@@ -1,0 +1,172 @@
+#page-wrapper {
+  background: @CLOUDS!important;
+}
+
+#editor {
+  width: 100%;
+  background: @CLOUDS;
+
+  .navbar {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 9999!important;
+    width: 100%;
+    height: @NAVBAR_HEIGHT;
+    background: @GREEN_SEA;
+  }
+
+  .separator {
+    margin: 1em auto;
+    width: 100%;
+    border-top: 3px solid fade(@SILVER, 25%);
+  }
+
+  .wrapper {
+    .border-box;
+    margin: 0 auto;
+    min-width: 1000px;
+    max-width: 1000px;
+    padding: 0.5em;
+    padding-top: @NAVBAR_HEIGHT;
+  }
+
+  .title {
+    padding: 0.5em;
+    text-align: center;
+    font-size: 1.25em;
+    font-weight: 500;
+  }
+
+  textarea,
+  input {
+    .border-box;
+    width: 100%;
+    padding: 10px;
+    border: 1px solid @SILVER
+  }
+
+  .abstract {
+    font-weight: 500
+  }
+
+  .field {
+    margin-top: 10px;
+    margin-bottom: 10px;
+  }
+
+  .tokens {
+    .border-box;
+    width: 100%;
+    padding-top: 5px;
+    padding-left: 5px;
+    margin: 0;
+
+    li {
+      display: inline-block;
+      margin-right: 5px;
+      margin-bottom: 5px;
+      padding: 7.5px 10px;
+      background: lighten(@CLOUDS, 5%);
+      list-style-type: none;
+
+      border: 1px solid @SILVER;
+      border-radius: 2.5px;
+
+      cursor: pointer;
+
+      .remove {
+        margin-left: 2.5px;
+        padding-left: 5px;
+      }
+
+      &:hover {
+        color: lighten(@CLOUDS, 5%);
+        background: @ASBESTOS;
+        border: 1px solid @CLOUDS;
+      }
+
+      .close-button {
+        i {
+          &:hover {
+            color: @ALIZARIN;
+          }
+        }
+      }
+    }
+
+    .token-add {
+      i {
+        float: left;
+        margin-top: 2.5px;
+        margin-right: 2.5px;
+      }
+    }
+  }
+
+  .add-button {
+    .user-select-none;
+    .border-box;
+    margin: 10px auto;
+    text-align: center;
+    color: #dedede;
+    cursor: pointer;
+
+    .reveal {
+      .border-box;
+      padding: 1em 0.5em;
+      cursor: pointer;
+
+      label {
+        display: none;
+        cursor: pointer;
+      }
+    }
+
+    &:hover {
+      color: #232323;
+
+      .reveal {
+        label {
+          display: inline-block;
+        }
+      }
+    }
+
+    &:active {
+      color: #555555;
+    }
+  }
+
+  // Temporary
+  .section {
+    position: relative;
+    background: #fefefe;
+    border: 1px solid @ASBESTOS;
+
+    .contents {
+      min-height: 200px;
+    }
+
+    .delete-button {
+      position: absolute;
+      top: 0; right: 0;
+      color: #cecece;
+      cursor: pointer;
+
+      &:hover {
+        color: #343434;
+      }
+
+      &:active {
+        color: #232323;
+      }
+    }
+
+    .subsection {
+      position: relative;
+      margin: 0 auto;
+      width: 90%;
+      border: 1px solid @ASBESTOS;
+    }
+  }
+}

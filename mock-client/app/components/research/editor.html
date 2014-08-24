@@ -1,0 +1,105 @@
+<div id="editor">
+    <div class="navbar">
+
+    </div>
+    <div class="wrapper">
+        <textarea class="title field" rows="1" msd-elastic place-focus ng-model="document.title" placeholder="Title"></textarea>
+
+        <ul class="authors tokens field">
+            <li class="author token" ng-repeat="author in document.authors" ng-click="editAuthor($index)">{{author.name}}&nbsp;<span class="close-button" ng-click="removeAuthor($index)"><i class="fa fa-1x fa-times remove"></i></span></li>
+            <li class="author-add token-add" ng-click="addAuthor()"><i class="fa fa-1x fa-plus"></i>&nbsp;Add Author</li>
+        </ul>
+
+        <textarea class="abstract field"
+                  rows="3"
+                  placeholder="abstract"
+                  msd-elastic
+                  ng-model="document.abstract"></textarea>
+
+        <input class="index-terms field" type="text" placeholder="index terms [Comma Separated]" ng-model="document.index_terms" ng-list>
+
+        <textarea class="acknowledgement field"
+                  rows="3"
+                  placeholder="acknowledgement [Optional]"
+                  msd-elastic
+                  ng-model="document.acknowledgement"></textarea>
+
+        <textarea class="financial_support field"
+                  rows="3"
+                  placeholder="financial support [Optional]"
+                  msd-elastic
+                  ng-model="document.financial_support"></textarea>
+
+        <div class="separator"></div>
+
+        <div class="add-button" ng-click="addSection(0)">
+            <div class="reveal">
+                <i class="icon fa fa-lg fa-plus-circle"></i>
+                <label>Insert A New Section Here</label>
+            </div>
+        </div>
+
+        <div ng-repeat="section in storage.document.sections">
+            <div class="section">
+                {{section.id}}
+                <i class="delete-button fa fa-1x fa-times-circle" ng-click="deleteSection(section.id)"></i>
+
+                <div class="contents"></div>
+
+                <div class="add-button" ng-click="addSubSection(section.id, 0)">
+                    <div class="reveal">
+                        <i class="icon fa fa-lg fa-plus-circle"></i>
+                        <label>Insert A New Sub-Section Here</label>
+                    </div>
+                </div>
+
+                <div ng-repeat="subsection in section.subsections">
+                    <div class="add-button" ng-click="addSubSubSection(section.id, subsection.id, 0)">
+                        <div class="reveal">
+                            <i class="icon fa fa-lg fa-plus-circle"></i>
+                            <label>Insert A New Sub-Sub-Section Here</label>
+                        </div>
+                    </div>
+
+                    <div class="subsection">
+                        {{subsection.id}}
+                        <i class="delete-button fa fa-1x fa-times-circle" ng-click="deleteSubSection(section.id, subsection.id)"></i>
+
+                        <div class="contents"></div>
+
+                        <div ng-repeat="subsubsection in subsubsections">
+                            <div class="subsubsection">
+                                {{subsubsection.id}}
+                                <i class="delete-button fa fa-1x fa-times-circle" ng-click="deleteSubSubSection(section.id, subsection.id, subsubsection.id)"></i>
+
+                                <div class="contents"></div>
+                            </div>
+
+                            <div class="add-button" ng-click="addSubSubSection(section.id, subsection.id, $index + 1)">
+                                <div class="reveal">
+                                    <i class="icon fa fa-lg fa-plus-circle"></i>
+                                    <label>Insert A New Sub-Sub-Section Here</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="add-button" ng-click="addSubSection(section.id, $index + 1)">
+                        <div class="reveal">
+                            <i class="icon fa fa-lg fa-plus-circle"></i>
+                            <label>Insert A New Sub-Section Here</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="add-button" ng-click="addSection($index + 1)">
+                <div class="reveal">
+                    <i class="icon fa fa-lg fa-plus-circle"></i>
+                    <label>Insert A New Section Here</label>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
