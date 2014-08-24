@@ -6,6 +6,8 @@ module.exports = (mongoose) ->
   # the research operations
   _aggregateDeltas = (deltas) ->
     document = {sections: []}
+    cache = {}
+
     if deltas.length > 0
       for i in [0..deltas.length - 1]
         delta = deltas[i]
@@ -13,38 +15,41 @@ module.exports = (mongoose) ->
         switch(delta.name)
           # Add a section at given index
           when 'section.add'
-            document.sections.splice(args.index, 0, {
+            newSection =
               id: args.section_id
               title: ''
               contents: ''
               subsections: []
-            })
+
+            document.sections.splice(args.index, 0, newSection)
+            cache[args.section_id] = {item: newSection, container: document.sections}
+
           # Remove a section given its id
           when 'section.delete'
-            for i in [0..document.sections.length - 1]
-              if document.sections[i].id == args.section_id
-                document.sections.splice(i, 1)
-                break
+            hit = cache[args.section_id]
+            if hit
+              hit.container.splice(hit.container.indexOf(hit.item), 1)
+              delete cache[args.section_id]
+
           # Add a subsection
           when 'subsection.add'
             # Find the section
-            for i in [0..document.sections.length - 1]
-              if document.sections[i].id == args.section_id
-                document.sections[i].subsections.splice(args.index, 0, {
-                  id: args.subsection_id
-                  title: ''
-                  contents: ''
-                  subsubsections: []
-                })
-                break
+            hit = cache[args.section_id] # Retrieve the section
+            if hit
+              newSubSection =
+                id: args.subsection_id
+                title: ''
+                contents: ''
+                subsubsections: []
+              hit.item.subsections.splice(args.index, 0, newSubSection)
+              cache[args.subsection_id] = {item: newSubSection container: hit.item}
           # Delete a subsection
           when 'subsection.delete'
-            for i in [0..document.sections.length - 1]
-              if document.sections[i].id == args.section_id
-                for j in [0..document.sections[i].subsections.length - 1]
-                  if document.sections[i].subsections[j].id == args.subsection_id
-                    document.sections[i].subsections.splice(j, 1)
-                    break
+            hit = cache[args.subsection_id]
+            if hit
+              hit.container.splice(hit.container.indexOf(hit.item), 1)
+              delete cache[args.subsection_id]
+
           # Add a subsubsection
           when 'subsubsection.add'
             for i in [0..document.sections.length - 1]
